@@ -2,82 +2,442 @@
 <html lang="fi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Kunnes menemme naimisiin 💍</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#140f33">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Rana & Samir">
+<title>Kunnes sanomme tahdon 💍</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
+  :root { --gold: #f4c76b; --cream: #fff6e5; --night: #120d2b; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
   body {
-    min-height: 100vh;
-    display: flex; align-items: center; justify-content: center;
-    background: linear-gradient(160deg, #fdf2f4 0%, #f6e3e8 50%, #efd5dc 100%);
-    font-family: Georgia, "Times New Roman", serif;
-    color: #5a3a44;
+    background: var(--night);
+    color: var(--cream);
+    font-family: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+    font-size: 18px;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    position: relative;
+    min-height: 100vh; min-height: 100svh;
+    overflow: hidden;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
     text-align: center;
-    padding: 24px;
+    padding: calc(48px + env(safe-area-inset-top)) 20px 200px;
+    background: linear-gradient(180deg, #140f33 0%, #2d1b5e 28%, #7a2f7a 50%, #d4546a 68%, #f59a52 82%, #ffd58a 100%);
+    background-size: cover; background-position: center;
   }
-  .card {
-    max-width: 560px; width: 100%;
-    background: rgba(255,255,255,0.7);
-    border-radius: 24px;
-    padding: 40px 24px;
-    box-shadow: 0 10px 40px rgba(120, 60, 80, 0.15);
+  .hero.has-photo .scene, .hero.has-photo .sun, .hero.has-photo .stars { display: none; }
+  .hero.has-photo::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(180deg, rgba(20,15,51,.55), rgba(20,15,51,.75));
   }
-  .ring { font-size: 48px; margin-bottom: 8px; }
-  h1 { font-size: 30px; font-weight: normal; letter-spacing: 1px; margin-bottom: 6px; }
-  .date { font-style: italic; opacity: 0.75; margin-bottom: 32px; }
-  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+
+  .stars { position: absolute; top: 0; left: 0; right: 0; height: 55%; pointer-events: none; }
+  .star {
+    position: absolute; border-radius: 50%; background: #fff;
+    animation: twinkle 3s ease-in-out infinite;
+  }
+  @keyframes twinkle { 0%,100% { opacity: .15; } 50% { opacity: .95; } }
+
+  .sun {
+    position: absolute; left: 50%; bottom: 13%;
+    width: min(520px, 110vw); height: min(520px, 110vw);
+    transform: translateX(-50%);
+    background: radial-gradient(circle, #fff3c4 0%, #ffd27a 16%, rgba(255,160,80,.55) 36%, rgba(255,120,80,0) 68%);
+    animation: pulse 8s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes pulse { 0%,100% { opacity: .85; transform: translateX(-50%) scale(1); } 50% { opacity: 1; transform: translateX(-50%) scale(1.06); } }
+
+  .scene { position: absolute; left: 0; right: 0; bottom: 0; height: 40vh; min-height: 240px; pointer-events: none; }
+  .scene svg { width: 100%; height: 100%; display: block; }
+  .boat { animation: drift 28s ease-in-out infinite alternate; }
+  @keyframes drift { from { transform: translateX(-60px); } to { transform: translateX(120px); } }
+  .glint { animation: glint 4s ease-in-out infinite; }
+  .glint:nth-of-type(2n) { animation-delay: 1.3s; }
+  @keyframes glint { 0%,100% { opacity: .15; } 50% { opacity: .7; } }
+
+  .hero-content { position: relative; z-index: 2; width: 100%; max-width: 760px; }
+  .eyebrow {
+    font-family: "Cinzel", Georgia, serif; font-size: 13px; letter-spacing: 5px;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 18px;
+  }
+  h1 {
+    font-family: "Cinzel", Georgia, serif; font-weight: 400;
+    font-size: clamp(40px, 10vw, 86px); line-height: 1.05; letter-spacing: 3px;
+    text-shadow: 0 4px 30px rgba(0,0,0,.45);
+  }
+  h1 .amp { color: var(--gold); font-family: "Cormorant Garamond", Georgia, serif; font-style: italic; padding: 0 .12em; }
+  .arabic {
+    font-family: "Amiri", "Geeza Pro", serif; font-size: clamp(24px, 6vw, 38px);
+    color: var(--gold); margin-top: 8px; direction: rtl;
+  }
+  .ornament { display: flex; align-items: center; justify-content: center; gap: 14px; margin: 22px auto; color: var(--gold); }
+  .ornament::before, .ornament::after { content: ""; height: 1px; width: min(90px, 18vw); background: linear-gradient(90deg, transparent, var(--gold)); }
+  .ornament::after { transform: scaleX(-1); }
+  .date { font-style: italic; font-size: clamp(18px, 4.5vw, 24px); opacity: .92; margin-bottom: 30px; text-transform: capitalize; }
+
+  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(8px, 2.5vw, 16px); }
   .box {
-    background: #fff;
-    border-radius: 16px;
-    padding: 16px 4px;
-    box-shadow: 0 4px 14px rgba(120, 60, 80, 0.1);
+    background: rgba(255,255,255,.12);
+    -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+    border: 1px solid rgba(255,255,255,.28);
+    border-radius: 18px; padding: clamp(14px, 4vw, 24px) 4px;
+    box-shadow: 0 10px 30px rgba(20,10,40,.28);
   }
-  .num { font-size: 34px; font-weight: bold; color: #b5546e; }
-  .label { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.7; margin-top: 4px; }
-  .msg { margin-top: 32px; font-size: 18px; line-height: 1.5; }
-  @media (max-width: 400px) { .num { font-size: 26px; } h1 { font-size: 24px; } }
+  .num { font-family: "Cinzel", Georgia, serif; font-size: clamp(26px, 8vw, 50px); color: #fff; font-variant-numeric: tabular-nums; }
+  .label { font-size: clamp(11px, 2.8vw, 14px); letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-top: 4px; }
+  .msg { margin-top: 30px; font-size: clamp(19px, 4.8vw, 26px); font-style: italic; line-height: 1.5; text-shadow: 0 2px 12px rgba(0,0,0,.4); }
+  .together { margin-top: 10px; font-size: 16px; opacity: .85; }
+
+  .scroll-hint {
+    position: absolute; z-index: 3; left: 50%; bottom: calc(18px + env(safe-area-inset-bottom));
+    transform: translateX(-50%); color: var(--cream); opacity: .8; text-decoration: none;
+    font-family: "Cinzel", serif; font-size: 11px; letter-spacing: 4px; text-transform: uppercase;
+    animation: bob 2.4s ease-in-out infinite;
+  }
+  @keyframes bob { 0%,100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, 8px); } }
+
+  /* ---------- SECTIONS ---------- */
+  .section { max-width: 1100px; margin: 0 auto; padding: 90px 20px 40px; }
+  .section[hidden] { display: none; }
+  h2 {
+    font-family: "Cinzel", Georgia, serif; font-weight: 400; text-align: center;
+    font-size: clamp(26px, 6vw, 40px); letter-spacing: 3px; margin-bottom: 10px;
+  }
+  .section .ornament { margin-bottom: 40px; }
+
+  .masonry { column-count: 2; column-gap: 14px; }
+  @media (min-width: 900px) { .masonry { column-count: 3; column-gap: 18px; } }
+  .tile {
+    break-inside: avoid; margin-bottom: 14px; position: relative; overflow: hidden;
+    border-radius: 16px; cursor: pointer; background: #2a1b4a;
+    box-shadow: 0 10px 30px rgba(0,0,0,.35);
+  }
+  .tile img { width: 100%; display: block; transition: transform .6s ease; }
+  .tile:hover img { transform: scale(1.05); }
+  .tile .cap {
+    position: absolute; left: 0; right: 0; bottom: 0; padding: 26px 14px 12px;
+    background: linear-gradient(transparent, rgba(10,5,25,.85)); font-size: 15px; font-style: italic;
+  }
+
+  .timeline { position: relative; max-width: 640px; margin: 0 auto; padding-left: 28px; }
+  .timeline::before { content: ""; position: absolute; left: 6px; top: 6px; bottom: 6px; width: 1px; background: linear-gradient(var(--gold), rgba(244,199,107,.1)); }
+  .event { position: relative; margin-bottom: 36px; }
+  .event::before {
+    content: ""; position: absolute; left: -28px; top: 7px; width: 13px; height: 13px;
+    border-radius: 50%; background: var(--gold); box-shadow: 0 0 0 5px rgba(244,199,107,.2);
+  }
+  .event .when { font-family: "Cinzel", serif; font-size: 13px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); }
+  .event h3 { font-weight: 600; font-size: 24px; margin: 4px 0; }
+  .event p { opacity: .88; line-height: 1.55; }
+
+  footer { text-align: center; padding: 70px 20px calc(60px + env(safe-area-inset-bottom)); opacity: .75; font-style: italic; }
+
+  .reveal { opacity: 0; transform: translateY(26px); transition: opacity .9s ease, transform .9s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+
+  /* ---------- LIGHTBOX ---------- */
+  .lb { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 50; background: rgba(8,4,20,.94);
+        display: none; align-items: center; justify-content: center; flex-direction: column; padding: 20px; }
+  .lb.open { display: flex; }
+  .lb img { max-width: 100%; max-height: 80vh; border-radius: 10px; }
+  .lb .lbcap { margin-top: 14px; font-style: italic; text-align: center; min-height: 1.4em; }
+  .lb button {
+    position: absolute; background: rgba(255,255,255,.12); color: #fff; border: 0; cursor: pointer;
+    width: 46px; height: 46px; border-radius: 50%; font-size: 22px;
+  }
+  .lb .x { top: calc(16px + env(safe-area-inset-top)); right: 16px; }
+  .lb .prev { left: 12px; top: 50%; } .lb .next { right: 12px; top: 50%; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .reveal { opacity: 1; transform: none; }
+  }
 </style>
 </head>
 <body>
-  <div class="card">
-    <div class="ring">💍</div>
-    <h1>Rana &amp; Samir</h1>
+
+<header class="hero" id="hero">
+  <div class="stars" id="stars"></div>
+  <div class="sun"></div>
+
+  <div class="scene">
+    <svg viewBox="0 0 1440 420" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+      <defs>
+        <linearGradient id="nile" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#ffb867" stop-opacity=".95"/>
+          <stop offset="1" stop-color="#8a3a7a" stop-opacity=".95"/>
+        </linearGradient>
+        <g id="palm">
+          <path d="M-3 0 Q4 -55 -9 -110 L-3 -110 Q10 -55 3 0Z"/>
+          <path d="M-6 -110 C-30 -140 -60 -130 -80 -100 C-58 -118 -32 -122 -6 -110Z"/>
+          <path d="M-6 -110 C-35 -120 -70 -100 -85 -70 C-62 -92 -32 -104 -6 -110Z"/>
+          <path d="M-6 -110 C18 -140 48 -132 68 -102 C46 -120 20 -122 -6 -110Z"/>
+          <path d="M-6 -110 C24 -120 58 -100 72 -72 C50 -94 22 -104 -6 -110Z"/>
+          <path d="M-6 -110 C-14 -135 -2 -155 4 -165 C6 -145 2 -128 -6 -110Z"/>
+        </g>
+      </defs>
+
+      <!-- kaukaiset dyynit -->
+      <path d="M0 250 C200 215 360 235 560 225 C760 215 900 240 1100 222 C1260 210 1360 228 1440 220 L1440 420 L0 420Z" fill="#5a2a55"/>
+
+      <!-- pyramidit -->
+      <polygon points="900,258 1050,95 1200,258" fill="#3a1d4a"/>
+      <polygon points="1050,95 1200,258 1050,258" fill="#25122f"/>
+      <polygon points="770,258 860,160 950,258" fill="#3a1d4a"/>
+      <polygon points="860,160 950,258 860,258" fill="#25122f"/>
+      <polygon points="1230,258 1290,190 1350,258" fill="#3a1d4a"/>
+      <polygon points="1290,190 1350,258 1290,258" fill="#25122f"/>
+
+      <!-- Niili -->
+      <path d="M0 262 C300 255 700 270 1000 258 C1200 252 1350 262 1440 258 L1440 305 C1100 313 700 300 300 310 C150 314 60 308 0 306Z" fill="url(#nile)"/>
+      <ellipse cx="720" cy="278" rx="120" ry="5" fill="#fff3c4" opacity=".5" class="glint"/>
+      <ellipse cx="640" cy="290" rx="70" ry="3" fill="#fff3c4" opacity=".4" class="glint"/>
+      <ellipse cx="820" cy="296" rx="90" ry="3" fill="#fff3c4" opacity=".4" class="glint"/>
+      <ellipse cx="300" cy="284" rx="80" ry="3" fill="#fff3c4" opacity=".3" class="glint"/>
+
+      <!-- felucca -->
+      <g class="boat">
+        <polygon points="520,272 520,238 552,270" fill="#fff3dd" opacity=".92"/>
+        <path d="M512 272 L562 272 L554 279 L520 279Z" fill="#2a1233"/>
+      </g>
+
+      <!-- lähidyynit -->
+      <path d="M0 335 C220 295 420 325 640 311 C860 297 1060 335 1260 315 C1350 305 1410 313 1440 309 L1440 420 L0 420Z" fill="#2a1233"/>
+      <path d="M0 385 C300 355 520 390 760 375 C1020 359 1200 389 1440 371 L1440 420 L0 420Z" fill="#170a22"/>
+
+      <!-- palmut -->
+      <g fill="#150920">
+        <use href="#palm" transform="translate(130 345) scale(1.15)"/>
+        <use href="#palm" transform="translate(222 356) scale(.78)"/>
+        <use href="#palm" transform="translate(1300 340) scale(1.05)"/>
+        <use href="#palm" transform="translate(1385 352) scale(.72)"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="hero-content">
+    <div class="eyebrow">Kunnes sanomme tahdon</div>
+    <h1 id="names"></h1>
+    <div class="arabic" id="arabic"></div>
+    <div class="ornament">✦</div>
     <div class="date" id="dateText"></div>
 
     <div class="grid" id="grid">
       <div class="box"><div class="num" id="d">0</div><div class="label">päivää</div></div>
-      <div class="box"><div class="num" id="h">0</div><div class="label">tuntia</div></div>
-      <div class="box"><div class="num" id="m">0</div><div class="label">minuuttia</div></div>
-      <div class="box"><div class="num" id="s">0</div><div class="label">sekuntia</div></div>
+      <div class="box"><div class="num" id="h">00</div><div class="label">tuntia</div></div>
+      <div class="box"><div class="num" id="m">00</div><div class="label">minuuttia</div></div>
+      <div class="box"><div class="num" id="s">00</div><div class="label">sekuntia</div></div>
     </div>
 
-    <p class="msg" id="msg">Espanjan tunti alkaa pian! </p>
+    <p class="msg" id="msg"></p>
+    <p class="together" id="together"></p>
   </div>
 
+  <a class="scroll-hint" id="hint" href="#gallery" hidden>Selaa alas</a>
+</header>
+
+<section class="section reveal" id="gallery" hidden>
+  <h2>Meidän hetkemme</h2>
+  <div class="ornament">✦</div>
+  <div class="masonry" id="masonry"></div>
+</section>
+
+<section class="section reveal" id="story" hidden>
+  <h2>Meidän tarinamme</h2>
+  <div class="ornament">✦</div>
+  <div class="timeline" id="timeline"></div>
+</section>
+
+<footer id="footer"></footer>
+
+<div class="lb" id="lb">
+  <button class="x" id="lbClose" aria-label="Sulje">✕</button>
+  <button class="prev" id="lbPrev" aria-label="Edellinen">‹</button>
+  <button class="next" id="lbNext" aria-label="Seuraava">›</button>
+  <img id="lbImg" alt="">
+  <div class="lbcap" id="lbCap"></div>
+</div>
+
 <script>
-  // === MUOKKAA TÄTÄ ===
-  var WEDDING_DATE = "2027-07-07T14:00:00"; // vuosi-kuukausi-päivä T tunnit:minuutit:sekunnit
-  // =====================
+  // ===================== MUOKKAA TÄTÄ =====================
+  var NAME1 = "Rana";
+  var NAME2 = "Samir";
+  var ARABIC_NAMES = "رنا و سمير";          // tyhjäksi "", jos et halua näyttää
+  var WEDDING_DATE = "2027-07-07T14:00:00";  // vuosi-kuukausi-päivä T tunnit:minuutit:sekunnit
+  var MESSAGE = "Jokainen päivä vie meidät lähemmäs yhteistä elämäämme ❤️";
+  var TOGETHER_SINCE = "";                   // esim. "2022-08-20", tyhjä = ei näytetä
+
+  // Oma kuva koko sivun taustaksi (korvaa piirretyn maiseman). Tyhjä = käytetään maisemaa.
+  var HERO_PHOTO = "";                       // esim. "tausta.jpg"
+
+  // Galleria: lisää omat kuvat GitHubiin ja listaa ne tähän.
+  var PHOTOS = [
+    // { src: "kuva1.jpg", caption: "Kesä Egyptissä" },
+    // { src: "kuva2.jpg", caption: "Ensitreffit" },
+    // { src: "kuva3.jpg", caption: "Kihlaus" }
+  ];
+
+  // Tarinan tapahtumat (aikajana). Tyhjä = osio piilotetaan.
+  var STORY = [
+    // { when: "Elokuu 2022", title: "Tapasimme", text: "Kirjoita tähän muutama lause." },
+    // { when: "Kesä 2026",   title: "Kihlaus",    text: "Kirjoita tähän muutama lause." }
+  ];
+  // ========================================================
+
+  var $ = function (id) { return document.getElementById(id); };
+
+  // --- Perustiedot ---
+  $("names").innerHTML = NAME1 + '<span class="amp">&amp;</span>' + NAME2;
+  if (ARABIC_NAMES) $("arabic").textContent = ARABIC_NAMES; else $("arabic").style.display = "none";
+  $("msg").textContent = MESSAGE;
 
   var target = new Date(WEDDING_DATE);
-  document.getElementById("dateText").textContent =
-    target.toLocaleDateString("fi-FI", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+  $("dateText").textContent = target.toLocaleDateString("fi-FI",
+    { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+  $("footer").textContent = NAME1 + " & " + NAME2 + " · " + target.toLocaleDateString("fi-FI") + " ♥";
 
+  if (HERO_PHOTO) {
+    var hero = $("hero");
+    hero.classList.add("has-photo");
+    hero.style.backgroundImage = "url('" + HERO_PHOTO + "')";
+  }
+
+  // --- Tähdet ---
+  (function () {
+    var wrap = $("stars");
+    for (var i = 0; i < 70; i++) {
+      var s = document.createElement("div");
+      s.className = "star";
+      var size = Math.random() * 2 + 0.8;
+      s.style.cssText = "left:" + (Math.random() * 100) + "%;top:" + (Math.random() * 100) + "%;" +
+        "width:" + size + "px;height:" + size + "px;" +
+        "animation-delay:" + (Math.random() * 3) + "s;animation-duration:" + (2 + Math.random() * 3) + "s";
+      wrap.appendChild(s);
+    }
+  })();
+
+  // --- Laskuri ---
+  function pad(n) { return n < 10 ? "0" + n : "" + n; }
   function tick() {
     var diff = target - new Date();
     if (diff <= 0) {
-      document.getElementById("grid").style.display = "none";
-      document.getElementById("msg").textContent = "Tänään on se päivä! 💍🎉";
-      return;
+      $("grid").style.display = "none";
+      $("msg").textContent = "Tänään on se päivä! 💍🎉";
+      return false;
     }
     var s = Math.floor(diff / 1000);
-    document.getElementById("d").textContent = Math.floor(s / 86400);
-    document.getElementById("h").textContent = Math.floor((s % 86400) / 3600);
-    document.getElementById("m").textContent = Math.floor((s % 3600) / 60);
-    document.getElementById("s").textContent = s % 60;
+    $("d").textContent = Math.floor(s / 86400);
+    $("h").textContent = pad(Math.floor((s % 86400) / 3600));
+    $("m").textContent = pad(Math.floor((s % 3600) / 60));
+    $("s").textContent = pad(s % 60);
+    return true;
   }
-  tick();
-  setInterval(tick, 1000);
+  if (tick()) setInterval(tick, 1000);
+
+  if (TOGETHER_SINCE) {
+    var days = Math.floor((new Date() - new Date(TOGETHER_SINCE)) / 86400000);
+    $("together").textContent = "Olemme olleet yhdessä jo " + days + " päivää 💕";
+  }
+
+  // --- Aikajana ---
+  if (STORY.length) {
+    STORY.forEach(function (e) {
+      var d = document.createElement("div");
+      d.className = "event reveal";
+      d.innerHTML = '<div class="when"></div><h3></h3><p></p>';
+      d.querySelector(".when").textContent = e.when || "";
+      d.querySelector("h3").textContent = e.title || "";
+      d.querySelector("p").textContent = e.text || "";
+      $("timeline").appendChild(d);
+    });
+    $("story").hidden = false;
+  }
+
+  // --- Galleria (näytetään vain kuvat, jotka oikeasti latautuvat) ---
+  var shown = [], cur = 0;
+  function loadPhotos(cb) {
+    var list = PHOTOS.map(function (p) { return typeof p === "string" ? { src: p, caption: "" } : p; });
+    var left = list.length, res = new Array(list.length);
+    if (!left) return cb([]);
+    list.forEach(function (p, i) {
+      var im = new Image();
+      im.onload = function () { res[i] = p; if (!--left) cb(res.filter(Boolean)); };
+      im.onerror = function () { res[i] = null; if (!--left) cb(res.filter(Boolean)); };
+      im.src = p.src;
+    });
+  }
+  loadPhotos(function (list) {
+    shown = list;
+    if (!list.length) { observe(); return; }
+    list.forEach(function (p, i) {
+      var t = document.createElement("div");
+      t.className = "tile";
+      var img = document.createElement("img");
+      img.src = p.src; img.alt = p.caption || "Meistä"; img.loading = "lazy";
+      t.appendChild(img);
+      if (p.caption) {
+        var c = document.createElement("div");
+        c.className = "cap"; c.textContent = p.caption;
+        t.appendChild(c);
+      }
+      t.addEventListener("click", function () { openLB(i); });
+      $("masonry").appendChild(t);
+    });
+    $("gallery").hidden = false;
+    $("hint").hidden = false;
+    observe();
+  });
+
+  // --- Lightbox ---
+  function showLB() {
+    $("lbImg").src = shown[cur].src;
+    $("lbCap").textContent = shown[cur].caption || "";
+  }
+  function openLB(i) { cur = i; showLB(); $("lb").classList.add("open"); document.body.style.overflow = "hidden"; }
+  function closeLB() { $("lb").classList.remove("open"); document.body.style.overflow = ""; }
+  function step(n) { cur = (cur + n + shown.length) % shown.length; showLB(); }
+  $("lbClose").onclick = closeLB;
+  $("lbPrev").onclick = function (e) { e.stopPropagation(); step(-1); };
+  $("lbNext").onclick = function (e) { e.stopPropagation(); step(1); };
+  $("lb").addEventListener("click", function (e) { if (e.target === this) closeLB(); });
+  document.addEventListener("keydown", function (e) {
+    if (!$("lb").classList.contains("open")) return;
+    if (e.key === "Escape") closeLB();
+    if (e.key === "ArrowLeft") step(-1);
+    if (e.key === "ArrowRight") step(1);
+  });
+  var tx = 0;
+  $("lb").addEventListener("touchstart", function (e) { tx = e.changedTouches[0].clientX; }, { passive: true });
+  $("lb").addEventListener("touchend", function (e) {
+    var dx = e.changedTouches[0].clientX - tx;
+    if (Math.abs(dx) > 50) step(dx < 0 ? 1 : -1);
+  });
+
+  // --- Vierittäessä esiin liukuminen ---
+  function observe() {
+    var els = document.querySelectorAll(".reveal");
+    if (!("IntersectionObserver" in window)) {
+      for (var i = 0; i < els.length; i++) els[i].classList.add("in");
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); }
+      });
+    }, { threshold: 0.12 });
+    for (var j = 0; j < els.length; j++) io.observe(els[j]);
+  }
 </script>
 </body>
 </html>
