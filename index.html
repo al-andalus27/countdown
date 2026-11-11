@@ -1,1 +1,83 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kunnes menemme naimisiin 💍</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(160deg, #fdf2f4 0%, #f6e3e8 50%, #efd5dc 100%);
+    font-family: Georgia, "Times New Roman", serif;
+    color: #5a3a44;
+    text-align: center;
+    padding: 24px;
+  }
+  .card {
+    max-width: 560px; width: 100%;
+    background: rgba(255,255,255,0.7);
+    border-radius: 24px;
+    padding: 40px 24px;
+    box-shadow: 0 10px 40px rgba(120, 60, 80, 0.15);
+  }
+  .ring { font-size: 48px; margin-bottom: 8px; }
+  h1 { font-size: 30px; font-weight: normal; letter-spacing: 1px; margin-bottom: 6px; }
+  .date { font-style: italic; opacity: 0.75; margin-bottom: 32px; }
+  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .box {
+    background: #fff;
+    border-radius: 16px;
+    padding: 16px 4px;
+    box-shadow: 0 4px 14px rgba(120, 60, 80, 0.1);
+  }
+  .num { font-size: 34px; font-weight: bold; color: #b5546e; }
+  .label { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.7; margin-top: 4px; }
+  .msg { margin-top: 32px; font-size: 18px; line-height: 1.5; }
+  @media (max-width: 400px) { .num { font-size: 26px; } h1 { font-size: 24px; } }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="ring">💍</div>
+    <h1>Anna &amp; Matti</h1>
+    <div class="date" id="dateText"></div>
 
+    <div class="grid" id="grid">
+      <div class="box"><div class="num" id="d">0</div><div class="label">päivää</div></div>
+      <div class="box"><div class="num" id="h">0</div><div class="label">tuntia</div></div>
+      <div class="box"><div class="num" id="m">0</div><div class="label">minuuttia</div></div>
+      <div class="box"><div class="num" id="s">0</div><div class="label">sekuntia</div></div>
+    </div>
+
+    <p class="msg" id="msg">Jokainen sekunti tuo meidät lähemmäs yhteistä elämäämme ❤️</p>
+  </div>
+
+<script>
+  // === MUOKKAA TÄTÄ ===
+  var WEDDING_DATE = "2027-06-12T14:00:00"; // vuosi-kuukausi-päivä T tunnit:minuutit:sekunnit
+  // =====================
+
+  var target = new Date(WEDDING_DATE);
+  document.getElementById("dateText").textContent =
+    target.toLocaleDateString("fi-FI", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+
+  function tick() {
+    var diff = target - new Date();
+    if (diff <= 0) {
+      document.getElementById("grid").style.display = "none";
+      document.getElementById("msg").textContent = "Tänään on se päivä! 💍🎉";
+      return;
+    }
+    var s = Math.floor(diff / 1000);
+    document.getElementById("d").textContent = Math.floor(s / 86400);
+    document.getElementById("h").textContent = Math.floor((s % 86400) / 3600);
+    document.getElementById("m").textContent = Math.floor((s % 3600) / 60);
+    document.getElementById("s").textContent = s % 60;
+  }
+  tick();
+  setInterval(tick, 1000);
+</script>
+</body>
+</html>
